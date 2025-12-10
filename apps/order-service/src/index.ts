@@ -1,6 +1,9 @@
+import { clerkPlugin, getAuth } from "@clerk/fastify";
 import Fastify from "fastify";
 
 const fastify = Fastify();
+
+fastify.register(clerkPlugin);
 
 fastify.get("/health", (request, reply) => {
   return reply.status(200).send({
@@ -8,6 +11,14 @@ fastify.get("/health", (request, reply) => {
     uptime: process.uptime(),
     timeStamp: Date.now(),
   });
+});
+
+fastify.get("/test", (request, reply) => {
+  const { userId } = getAuth(request);
+  if (!userId) {
+    return reply.send({ message: "Not authorized!" });
+  }
+  return reply.send({ message: "Order service is authorized!" });
 });
 
 const start = async () => {
