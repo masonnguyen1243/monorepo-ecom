@@ -1,5 +1,6 @@
 import { getAuth } from "@clerk/express";
 import { Response, Request, NextFunction } from "express";
+import type { CustomJwtSessionClaims } from "@repo/types";
 
 declare global {
   namespace Express {
@@ -19,6 +20,29 @@ export const shouldBeUser = (
 
   if (!userId) {
     return res.status(401).json({ message: "Not authenticated!" });
+  }
+
+  req.userId = auth.userId;
+
+  return next();
+};
+
+export const shouldBeAdmin = (
+  req: Request,
+  res: Response,
+  next: NextFunction
+) => {
+  const auth = getAuth(req);
+  const userId = auth.userId;
+
+  if (!userId) {
+    return res.status(401).json({ message: "Not authenticated!" });
+  }
+
+  const claims = auth.sessionClaims as CustomJwtSessionClaims;
+
+  if (claims.metadata?.role !== "admin") {
+    return res.status(403).send({ message: "Not authorized!" });
   }
 
   req.userId = auth.userId;

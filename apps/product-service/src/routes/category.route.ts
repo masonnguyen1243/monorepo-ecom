@@ -5,14 +5,15 @@ import {
   getCategories,
   updateCategory,
 } from "../controllers/category.controller.js";
+import { shouldBeAdmin } from "../middleware/authMiddleware.js";
 
 const router: Router = Router();
 
-router.post("/", createCategory);
+router.post("/", shouldBeAdmin, createCategory);
 
-router.put("/:id", updateCategory);
+router.put("/:id", shouldBeAdmin, updateCategory);
 
-router.delete("/:id", deleteCategory);
+router.delete("/:id", shouldBeAdmin, deleteCategory);
 
 router.get("/", getCategories);
 
