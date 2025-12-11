@@ -10,7 +10,8 @@
   "devDependencies": {
     "@types/node": "^25.0.0",
     "@types/pg": "^8.16.0",
-    "prisma": "^7.1.0"
+    "prisma": "^7.1.0",
+    "@repo/typescript-config": "workspace:*"
   },
   "dependencies": {
     "@prisma/adapter-pg": "^7.1.0",
