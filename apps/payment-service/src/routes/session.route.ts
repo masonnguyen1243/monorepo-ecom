@@ -40,7 +40,7 @@ sessionRoute.post("/create-checkout-session", shouldBeUser, async (c) => {
     return c.json({ checkoutSessionClientSecret: session.client_secret });
   } catch (error) {
     console.log(error);
-    return error;
+    return c.json({ error });
   }
 });
 

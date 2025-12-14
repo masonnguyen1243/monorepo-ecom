@@ -41,7 +41,7 @@ const StripePaymentForm = ({
 
   useEffect(() => {
     getToken().then((token) => setToken(token));
-  }, []);
+  }, [getToken]);
 
   if (!token) {
     return <div className="">Loading...</div>;
