@@ -1,6 +1,7 @@
 "use client";
 
 import ShippingForm from "@/components/ShippingForm";
+import StripePaymentForm from "@/components/StripePaymentForm";
 import useCartStore from "@/store/cartStore";
 import { ShippingFormInputs } from "@repo/types";
 import { ArrowRight, Trash2 } from "lucide-react";
@@ -176,7 +177,7 @@ const CartPage = () => {
           ) : activeStep === 2 ? (
             <ShippingForm setShippingForm={setShippingForm} />
           ) : activeStep === 3 && shippingForm ? (
-            "TODO: create stripe payment form here"
+            <StripePaymentForm shippingForm={shippingForm} />
           ) : (
             <p className="text-sm text-gray-500">
               Please fill in shipping form to continue
