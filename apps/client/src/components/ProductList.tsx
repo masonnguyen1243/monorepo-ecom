@@ -7,7 +7,7 @@ import Filter from "./Filter";
 //Mock data
 const products: ProductsType = [
   {
-    id: 1,
+    id: 123,
     name: "Adidas CoreFit T-Shirt",
     shortDescription:
       "Lorem ipsum dolor sit amet consect adipisicing elit lorem ipsum dolor sit.",
