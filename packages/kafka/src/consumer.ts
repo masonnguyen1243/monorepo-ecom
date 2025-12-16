@@ -8,7 +8,7 @@ export const createComsumer = (kafka: Kafka, groupId: string) => {
     console.log("Kafka consumer connected" + groupId);
   };
 
-  const subcribe = async (
+  const subscribe = async (
     topic: string,
     handler: (message: any) => Promise<void>
   ) => {
@@ -36,5 +36,5 @@ export const createComsumer = (kafka: Kafka, groupId: string) => {
     await consumer.disconnect();
   };
 
-  return { connect, subcribe, disconnect };
+  return { connect, subscribe, disconnect };
 };

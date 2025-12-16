@@ -5,6 +5,7 @@ export const createProducer = (kafka: Kafka) => {
 
   const connect = async () => {
     await producer.connect();
+    console.log("Kafka producer connected");
   };
 
   const send = async (topic: string, message: object) => {
@@ -12,6 +13,8 @@ export const createProducer = (kafka: Kafka) => {
       topic,
       messages: [{ value: JSON.stringify(message) }],
     });
+
+    console.log("✅ Kafka send message");
   };
 
   const disconnect = async () => {
