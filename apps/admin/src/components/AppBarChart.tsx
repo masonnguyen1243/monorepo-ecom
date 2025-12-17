@@ -7,6 +7,8 @@ import {
   ChartTooltipContent,
   type ChartConfig,
 } from "@/components/ui/chart";
+import { OrderChartType } from "@repo/types";
+import { use } from "react";
 import { Bar, BarChart, CartesianGrid, XAxis, YAxis } from "recharts";
 
 const chartConfig = {
@@ -14,22 +16,27 @@ const chartConfig = {
     label: "Total",
     color: "var(--chart-1)",
   },
-  successfull: {
-    label: "Successfull",
+  successful: {
+    label: "Successful",
     color: "var(--chart-4)",
   },
 } satisfies ChartConfig;
 
-const chartData = [
-  { month: "January", total: 186, successfull: 80 },
-  { month: "February", total: 305, successfull: 200 },
-  { month: "March", total: 237, successfull: 120 },
-  { month: "April", total: 173, successfull: 100 },
-  { month: "May", total: 209, successfull: 130 },
-  { month: "June", total: 214, successfull: 140 },
-];
+// const chartData = [
+//   { month: "January", total: 186, successfull: 80 },
+//   { month: "February", total: 305, successfull: 200 },
+//   { month: "March", total: 237, successfull: 120 },
+//   { month: "April", total: 173, successfull: 100 },
+//   { month: "May", total: 209, successfull: 130 },
+//   { month: "June", total: 214, successfull: 140 },
+// ];
 
-const AppBarChart = () => {
+const AppBarChart = ({
+  dataPromise,
+}: {
+  dataPromise: Promise<OrderChartType[]>;
+}) => {
+  const chartData = use(dataPromise);
   return (
     <div className="">
       <h1 className="text-lg font-medium mb-6">Total Revenue</h1>
@@ -47,11 +54,7 @@ const AppBarChart = () => {
           <ChartTooltip content={<ChartTooltipContent />} />
           <ChartLegend content={<ChartLegendContent />} />
           <Bar dataKey="total" fill="var(--color-total)" radius={4} />
-          <Bar
-            dataKey="successfull"
-            fill="var(--color-successfull)"
-            radius={4}
-          />
+          <Bar dataKey="successful" fill="var(--color-successful)" radius={4} />
         </BarChart>
       </ChartContainer>
     </div>
