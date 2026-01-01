@@ -20,14 +20,15 @@ import {
 } from "./ui/form";
 import { Input } from "./ui/input";
 import { Button } from "./ui/button";
-
-const formSchema = z.object({
-  name: z.string().min(2, { message: "Name is required!" }),
-});
+import { CategoryFormSchema } from "@repo/types";
 
 const AddCategory = () => {
-  const form = useForm<z.infer<typeof formSchema>>({
-    resolver: zodResolver(formSchema),
+  const form = useForm<z.infer<typeof CategoryFormSchema>>({
+    resolver: zodResolver(CategoryFormSchema),
+    defaultValues: {
+      name: "",
+      slug: "",
+    },
   });
   return (
     <SheetContent>
@@ -46,6 +47,20 @@ const AddCategory = () => {
                       <Input {...field} />
                     </FormControl>
                     <FormDescription>Enter category name.</FormDescription>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
+              <FormField
+                control={form.control}
+                name="slug"
+                render={({ field }) => (
+                  <FormItem>
+                    <FormLabel>Slug</FormLabel>
+                    <FormControl>
+                      <Input {...field} />
+                    </FormControl>
+                    <FormDescription>Enter category slug.</FormDescription>
                     <FormMessage />
                   </FormItem>
                 )}
