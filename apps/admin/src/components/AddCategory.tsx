@@ -21,6 +21,9 @@ import {
 import { Input } from "./ui/input";
 import { Button } from "./ui/button";
 import { CategoryFormSchema } from "@repo/types";
+import { useMutation } from "@tanstack/react-query";
+import { useAuth } from "@clerk/nextjs";
+import { toast } from "react-toastify";
 
 const AddCategory = () => {
   const form = useForm<z.infer<typeof CategoryFormSchema>>({
@@ -30,13 +33,48 @@ const AddCategory = () => {
       slug: "",
     },
   });
+
+  const { getToken } = useAuth();
+
+  const mutation = useMutation({
+    mutationFn: async (data: z.infer<typeof CategoryFormSchema>) => {
+      const token = await getToken();
+      const res = await fetch(
+        `${process.env.NEXT_PUBLIC_PRODUCT_SERVICE_URL}/categories`,
+        {
+          method: "POST",
+          body: JSON.stringify(data),
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      );
+
+      if (!res.ok) {
+        throw new Error("Failed to create category!");
+      }
+    },
+    onSuccess: () => {
+      toast.success("Category created successfully!");
+    },
+    onError: (error) => {
+      console.log(error);
+
+      toast.error(error.message);
+    },
+  });
+
   return (
     <SheetContent>
       <SheetHeader>
         <SheetTitle className="mb-4">Add Category</SheetTitle>
         <SheetDescription asChild>
           <Form {...form}>
-            <form className="space-y-8">
+            <form
+              onSubmit={form.handleSubmit((data) => mutation.mutate(data))}
+              className="space-y-8"
+            >
               <FormField
                 control={form.control}
                 name="name"
@@ -65,7 +103,13 @@ const AddCategory = () => {
                   </FormItem>
                 )}
               />
-              <Button type="submit">Submit</Button>
+              <Button
+                type="submit"
+                disabled={mutation.isPending}
+                className="disabled:opacity-50 disabled:cursor-not-allowed"
+              >
+                {mutation.isPending ? "Submitting..." : "Submit"}
+              </Button>
             </form>
           </Form>
         </SheetDescription>
