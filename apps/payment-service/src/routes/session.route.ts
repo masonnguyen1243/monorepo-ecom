@@ -23,7 +23,7 @@ sessionRoute.post("/create-checkout-session", shouldBeUser, async (c) => {
         },
         quantity: item.quantity,
       };
-    })
+    }),
   );
 
   try {
@@ -50,7 +50,7 @@ sessionRoute.get("/:session_id", async (c) => {
     session_id as string,
     {
       expand: ["line_items"],
-    }
+    },
   );
 
   console.log(session);

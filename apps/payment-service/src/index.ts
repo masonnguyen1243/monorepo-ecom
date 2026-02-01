@@ -13,7 +13,7 @@ app.use(
   "*",
   cors({
     origin: "http://localhost:3002",
-  })
+  }),
 );
 
 app.get("/health", (c) => {
@@ -60,9 +60,9 @@ const start = async () => {
       },
       (info) => {
         console.log(
-          `Payment service is running on http://localhost:${info.port}`
+          `Payment service is running on http://localhost:${info.port}`,
         );
-      }
+      },
     );
   } catch (error) {
     console.log("Error starting the server:", error);
